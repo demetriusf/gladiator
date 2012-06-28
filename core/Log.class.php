@@ -1,4 +1,5 @@
-<?php
+<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+
 class Log{
 
 	private $type;

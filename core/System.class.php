@@ -4,7 +4,7 @@ class System{
 	
 	private static $instance = NULL;
 	private $configsManager;
-	private $logger;
+	private $logger = NULL;
 	CONST SYSTEM_VERSION = 'Gladiator 1.0';
 	
 	private function __construct(){}

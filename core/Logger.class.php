@@ -1,68 +1,62 @@
-﻿<?php
+﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+
 class Logger{
 	
 	private $logs = array();
 	
-	CONST LOG_OUTPUT_SCREEN = 1;
-	CONST LOG_OUTPUT_FILE = 2;
-	CONST LOG_OUTPUT_SCREEN_FILE= 3;
-	
 	public function __construct(){}
+	
+	private function createLog( $logType, $message ){
 		
-	private function getModeLogOutput( $modeLogOutput ){
+		$log = new Log( $logType, date('Y-m-d h:i:s'), $message);
 		
-		$modeLogOutput = (int) $modeLogOutput;
+		$this -> logs[] = $log;
 
-		return $modeLogOutput < 1 || $modeLogOutput > 4 ? 1 : $modeLogOutput;
-		
 	}
 	
-	private function createLog( $logType, $message, $modeLogOutput ){
-		
-		$modeLogOutput = $this -> getModeLogOutput($modeLogOutput);
-		
-		$log = new Log( $logType, date('d/m/Y h:i:s'), $message);
-		
-		if( $modeLogOutput === Logger::LOG_OUTPUT_SCREEN_FILE ){
+	public function getLogsToString(){
 
-			$this -> logs[Logger::LOG_OUTPUT_SCREEN][] = $log;
-			$this -> logs[Logger::LOG_OUTPUT_FILE][] = $log;
-			
-		}else{
-			
-			$this -> logs[$modeLogOutput][] = $log;
-			
-		}
-				
-		
+		return implode('<br />', $this -> logs);
+
 	}
 	
-	public function getLogsOutputScreen(){
+	public function saveLogsInFile( $filePath="" ){
 		
-		if( isset($this -> logs[Logger::LOG_OUTPUT_SCREEN]) ){
-			
-			return implode('<br />', $this -> logs[Logger::LOG_OUTPUT_SCREEN]);
-			
-		}
-		
-	}
-	
-	public function saveLogsInFile( $filePath ){
-		
-		if( isset($this -> logs[Logger::LOG_OUTPUT_FILE]) ){
-			
-			$logText = implode('\n\r', $this -> logs[Logger::LOG_OUTPUT_FILE])."\n\r";
+			$accessSafe = "<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); } ?>";
+			$logText = implode(chr(13), $this -> logs);
 			
 			if( !empty( $logText ) ){
 				
-				$fp = fopen('test.php', 'a+');
-				fwrite($fp, $logInText);
-				fclose($fp);
+				$logText = chr(13).$logText;
+				
+				if( empty( $filePath ) ){
+				
+					$filePath = "logs/log-".date('Y-m-d').".php";	
+				
+				}
+				
+				if( !file_exists( $filePath ) ){
+
+					$logText = $accessSafe.$logText;
+					
+				}
+
+				$fp = fopen($filePath, 'a');
+				
+				if( $fp ){
+				
+					fwrite($fp, $logText);
+					fclose($fp);
+				
+				}else{
+					
+					throw new RuntimeException( "It was not possible save the Log in the following file: $filePath " );
+					
+				}
+
 				
 			}	
-			
-		}		
-		
+
 	}
 	
 	public function clear(){
@@ -71,27 +65,33 @@ class Logger{
 		
 	}
 
-	public function d( $message, $modeLogOutput = 1 ){
+	public function d( $message ){
 		
-		$this -> createLog("DEBUG", $message, $modeLogOutput);
-		
-	}
-	
-	public function i( $message, $modeLogOutput = 1 ){
-		
-		$this -> createLog("INFO", $message, $modeLogOutput);
+		$this -> createLog("DEBUG", $message);
 		
 	}
 	
-	public function w( $message, $modeLogOutput = 1 ){
+	public function i( $message ){
 		
-		$this -> createLog("WARNING", $message, $modeLogOutput);
+		$this -> createLog("INFO", $message);
+		
+	}
+	
+	public function w( $message ){
+		
+		$this -> createLog("WARNING", $message);
 		
 	}
 
-	public function e( $message, $modeLogOutput = 1 ){
+	public function e( $message ){
 		
-		$this -> createLog("ERROR", $message, $modeLogOutput);
+		$this -> createLog("ERROR", $message);
+		
+	}
+
+	public function custom( $errorLevel, $message ){
+		
+		$this -> createLog($errorLevel, $message);
 		
 	}
 

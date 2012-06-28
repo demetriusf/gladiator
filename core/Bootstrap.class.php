@@ -6,8 +6,8 @@ class Bootstrap{
 	
 	public static function init( System $system ){
 		
-		// init server's configs
-		Bootstrap::initServerConfigs();
+		// init global's configs
+		Bootstrap::initGlobalConfigs();
 
 		// init auto load
 		Bootstrap::initAutoLoad();
@@ -20,11 +20,13 @@ class Bootstrap{
 		
 	}
 	
-	private static function initServerConfigs(){
+	private static function initGlobalConfigs(){
 
 		@set_time_limit(30);
-		@error_reporting(0);
-		@set_error_handler(array('Bootstrap', 'loadErrorHandler'));
+		@error_reporting(0); 
+		@set_error_handler( array('Error', 'myErrorHandler') );
+		@set_exception_handler( array('Error', 'myExceptionHandler') );
+		@register_shutdown_function( array('Error', 'myShutdownFunction') );
 		
 	}
 	
@@ -46,14 +48,6 @@ class Bootstrap{
 				
 		$system -> setLogger( new Logger() );
 
-	}
-	
-	public static function loadErrorHandler( $number, $message, $file, $line ){
-		
-		echo "Erro: ".$message."<br>";
-		
-		return TRUE; // the php doesn't treat this error when the return is like TRUE
-		
 	}
 		
 }
