@@ -1,42 +1,97 @@
 ﻿<?php
 class Logger{
 	
-	private $modeLogOutput = 1;
+	private $logs = array();
 	
-	CONST LOG_OUTPUT_FILE = 1;
-	CONST LOG_OUTPUT_SCREEN = 2;
-	CONST LOG_OUTPUT_FILE_SCREEN= 3;
-	CONST LOG_RETURN_OUTPUT = 4;
+	CONST LOG_OUTPUT_SCREEN = 1;
+	CONST LOG_OUTPUT_FILE = 2;
+	CONST LOG_OUTPUT_SCREEN_FILE= 3;
 	
 	public function __construct(){}
-	
-	public function getModeLogOutput(){
 		
-		return $this -> modeLogOutput;
-		
-	}
-	
-	public function setModeLogOutput( $modeLogOutput ){
+	private function getModeLogOutput( $modeLogOutput ){
 		
 		$modeLogOutput = (int) $modeLogOutput;
 
-		$this -> modeLogOutput = $modeLogOutput < 1 || $modeLogOutput > 4 ? 1 : $modeLogOutput;
-		
-	}
-
-	public function d( $message ){
+		return $modeLogOutput < 1 || $modeLogOutput > 4 ? 1 : $modeLogOutput;
 		
 	}
 	
-	public function i( $message ){
+	private function createLog( $logType, $message, $modeLogOutput ){
+		
+		$modeLogOutput = $this -> getModeLogOutput($modeLogOutput);
+		
+		$log = new Log( $logType, date('d/m/Y h:i:s'), $message);
+		
+		if( $modeLogOutput === Logger::LOG_OUTPUT_SCREEN_FILE ){
+
+			$this -> logs[Logger::LOG_OUTPUT_SCREEN][] = $log;
+			$this -> logs[Logger::LOG_OUTPUT_FILE][] = $log;
+			
+		}else{
+			
+			$this -> logs[$modeLogOutput][] = $log;
+			
+		}
+				
 		
 	}
 	
-	public function w( $message ){
-		echo $message."<br>";	
+	public function getLogsOutputScreen(){
+		
+		if( isset($this -> logs[Logger::LOG_OUTPUT_SCREEN]) ){
+			
+			return implode('<br />', $this -> logs[Logger::LOG_OUTPUT_SCREEN]);
+			
+		}
+		
+	}
+	
+	public function saveLogsInFile( $filePath ){
+		
+		if( isset($this -> logs[Logger::LOG_OUTPUT_FILE]) ){
+			
+			$logText = implode('\n\r', $this -> logs[Logger::LOG_OUTPUT_FILE])."\n\r";
+			
+			if( !empty( $logText ) ){
+				
+				$fp = fopen('test.php', 'a+');
+				fwrite($fp, $logInText);
+				fclose($fp);
+				
+			}	
+			
+		}		
+		
+	}
+	
+	public function clear(){
+		
+		$this->logs = array();
+		
 	}
 
-	public function e( $message ){
+	public function d( $message, $modeLogOutput = 1 ){
+		
+		$this -> createLog("DEBUG", $message, $modeLogOutput);
+		
+	}
+	
+	public function i( $message, $modeLogOutput = 1 ){
+		
+		$this -> createLog("INFO", $message, $modeLogOutput);
+		
+	}
+	
+	public function w( $message, $modeLogOutput = 1 ){
+		
+		$this -> createLog("WARNING", $message, $modeLogOutput);
+		
+	}
+
+	public function e( $message, $modeLogOutput = 1 ){
+		
+		$this -> createLog("ERROR", $message, $modeLogOutput);
 		
 	}
 

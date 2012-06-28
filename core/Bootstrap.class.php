@@ -14,7 +14,9 @@ class Bootstrap{
 
 		// load system configs
 		Bootstrap::loadSystemConfigs($system);		
-
+		
+		// load log system
+		Bootstrap::loadLogger($system);	
 		
 	}
 	
@@ -25,6 +27,12 @@ class Bootstrap{
 		@set_error_handler(array('Bootstrap', 'loadErrorHandler'));
 		
 	}
+	
+	private static function initAutoLoad(){
+				
+		echo "Inicializa auto load <br>";		
+		
+	}	
 
 	private static function loadSystemConfigs( System $system ){
 		
@@ -34,17 +42,17 @@ class Bootstrap{
 
 	}
 	
-	private static function initAutoLoad(){
+	private static function loadLogger( System $system ){
 				
-		echo "Inicializa auto load <br>";		
-		
+		$system -> setLogger( new Logger() );
+
 	}
 	
 	public static function loadErrorHandler( $number, $message, $file, $line ){
 		
 		echo "Erro: ".$message."<br>";
 		
-		return TRUE; // O erro NÃO é tratado de forma normal pelo php
+		return TRUE; // the php doesn't treat this error when the return is like TRUE
 		
 	}
 		

@@ -4,6 +4,7 @@ class System{
 	
 	private static $instance = NULL;
 	private $configsManager;
+	private $logger;
 	CONST SYSTEM_VERSION = 'Gladiator 1.0';
 	
 	private function __construct(){}
@@ -35,6 +36,18 @@ class System{
 	public function setConfigsManager( ConfigsManager $configsManager ){
 		
 		$this -> configsManager = $configsManager;
+		
+	}
+	
+	public function getLogger(){
+		
+		return $this -> logger;
+		
+	}
+	
+	public function setLogger( Logger $logger ){
+		
+		$this -> logger = $logger;
 		
 	}
 
