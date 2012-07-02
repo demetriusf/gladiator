@@ -1,10 +1,23 @@
 ﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
 
 class Logger{
-	
+
+    private static $instance = NULL;
 	private $logs = array();
 	
-	public function __construct(){}
+	private function __construct(){}
+
+    public static function getInstance(){
+
+        if( is_null(Logger::$instance) ){
+
+			Logger::$instance = new self();
+
+		}
+
+		return Logger::$instance;
+
+    }
 	
 	private function createLog( $logType, $message ){
 		
@@ -21,20 +34,20 @@ class Logger{
 	}
 	
 	public function saveLogsInFile( $filePath="" ){
-		
+
 			$accessSafe = "<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); } ?>";
 			$logText = implode(chr(13), $this -> logs);
-			
+
 			if( !empty( $logText ) ){
-				
+
 				$logText = chr(13).$logText;
-				
+
 				if( empty( $filePath ) ){
 				
 					$filePath = "logs/log-".date('Y-m-d').".php";	
 				
 				}
-				
+
 				if( !file_exists( $filePath ) ){
 
 					$logText = $accessSafe.$logText;
@@ -51,7 +64,7 @@ class Logger{
 				}else{
 					
 					throw new RuntimeException( "It was not possible save the Log in the following file: $filePath " );
-					
+
 				}
 
 				

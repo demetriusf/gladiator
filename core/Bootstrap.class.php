@@ -23,7 +23,7 @@ class Bootstrap{
 	private static function initGlobalConfigs(){
 
 		@set_time_limit(30);
-		@error_reporting(0); 
+		@error_reporting(0);
 		@set_error_handler( array('Error', 'myErrorHandler') );
 		@set_exception_handler( array('Error', 'myExceptionHandler') );
 		@register_shutdown_function( array('Error', 'myShutdownFunction') );
@@ -31,9 +31,7 @@ class Bootstrap{
 	}
 	
 	private static function initAutoLoad(){
-				
-		echo "Inicializa auto load <br>";		
-		
+
 	}	
 
 	private static function loadSystemConfigs( System $system ){
@@ -46,7 +44,7 @@ class Bootstrap{
 	
 	private static function loadLogger( System $system ){
 				
-		$system -> setLogger( new Logger() );
+		$system -> setLogger( Logger::getInstance() );
 
 	}
 		

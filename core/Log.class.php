@@ -16,7 +16,7 @@ class Log{
 	
 	public function __toString(){
 		
-		return sprintf("%s - [%s] ---> \t %s ", $this -> getDate(), $this -> getType(), $this -> getMessage() );
+		return sprintf("%s - [%s] ---> \t [Message] %s ", $this -> getDate(), $this -> getType(), $this -> getMessage() );
 		
 	}
 	
