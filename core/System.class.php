@@ -1,16 +1,17 @@
 ﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
 
-class System{
+final class System{
 	
 	private static $instance = NULL;
 	private $configsManager;
 	private $logger = NULL;
+    private $output = NULL;
 	CONST SYSTEM_VERSION = 'Gladiator 1.0';
 	
 	private function __construct(){}
 	
 	public static function getInstance(){
-		
+
 		if( is_null(System::$instance) ){
 
 			System::$instance = new self();
@@ -50,5 +51,17 @@ class System{
 		$this -> logger = $logger;
 		
 	}
+
+    public function getOutput(){
+
+        return $this -> output;
+
+    }
+
+    public function setOutput( Output $output ){
+
+        $this -> output = $output;
+
+    }
 
 }

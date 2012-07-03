@@ -16,8 +16,10 @@ class Bootstrap{
 		Bootstrap::loadSystemConfigs($system);		
 		
 		// load log system
-		Bootstrap::loadLogger($system);	
-		
+		Bootstrap::loadLogger($system);
+
+		// load Output
+		Bootstrap::loadOutput($system);
 	}
 	
 	private static function initGlobalConfigs(){
@@ -36,15 +38,22 @@ class Bootstrap{
 
 	private static function loadSystemConfigs( System $system ){
 		
-		require_once (CONFIG_PATH.'config.php');
+		require_once(CONFIG_PATH.'config.php');
 				
 		$system -> setConfigsManager( new ConfigsManager( $config ) );
 
 	}
-	
+
 	private static function loadLogger( System $system ){
 				
 		$system -> setLogger( Logger::getInstance() );
+
+	}
+
+
+	private static function loadOutput( System $system ){
+
+		$system -> setOutput( new Output() );
 
 	}
 		

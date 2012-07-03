@@ -1,6 +1,6 @@
 ﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
 
-class Logger{
+final class Logger{
 
     private static $instance = NULL;
 	private $logs = array();

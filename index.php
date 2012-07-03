@@ -15,14 +15,14 @@ require_once(CORE_PATH.'Error.class.php');
 require_once(CORE_PATH.'ConfigsManager.class.php');
 require_once(CORE_PATH.'Logger.class.php');
 require_once(CORE_PATH.'Log.class.php');
+require_once(CORE_PATH.'Output.class.php');
 
 $system = System::getInstance();
 $system -> init();
-     file_get_contents('HUAhuahA');
-     file_get_contents('HUAhuahA');
-     file_get_contents('HUAhuahA');
-     file_get_contents('HUAhuahA');
-     file_get_contents('HUAhuahA');
+
+$system -> getOutput() -> append('Aqui estarei adicionando uma saida para o sistema...');
+file_get_contents('AUHauAH');
+$system -> getOutput() -> printOutput();
 //********************************************************//
 // **** If any error was threw, save the log in file **** //
 //********************************************************//

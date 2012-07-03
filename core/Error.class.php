@@ -6,6 +6,10 @@ class Error{
 
 		$logger = Logger::getInstance();
 
+        $system = System::getInstance();
+
+        $notExistsOutput = is_null($system -> getOutput());
+
 		$messageLog = sprintf("%s \t File: %s \t Line: %d", $message, $file, $line);
         $levelMode = "";
 
@@ -23,18 +27,64 @@ class Error{
 			case E_WARNING:
 								$logger->w($messageLog);
                                 $levelMode = "Warning";
-                                require(ERRORS_PATH.'php_error.php');
+
+                                if( $notExistsOutput ){
+
+                                    require(ERRORS_PATH.'php_error.php');
+
+                                }else{
+
+                                    ob_start();
+                                    require(ERRORS_PATH.'php_error.php');
+                                    $output = ob_get_contents();
+                                    ob_end_clean();
+
+                                    $system -> getOutput() -> append($output);
+
+                                }
+
 								break;
 
 			case E_USER_NOTICE:
 			case E_NOTICE:
 								$logger->i($messageLog);
                                 $levelMode = "Info";
+
+                                if( $notExistsOutput ){
+
+                                    require(ERRORS_PATH.'php_error.php');
+
+                                }else{
+
+                                    ob_start();
+                                    require(ERRORS_PATH.'php_error.php');
+                                    $output = ob_get_contents();
+                                    ob_end_clean();
+
+                                    $system -> getOutput() -> append($output);
+
+                                }
+
 								break;
 
 			default:
                                 $levelMode = $number;
 								$logger->custom( $number, $messageLog);
+
+                                if( $notExistsOutput ){
+
+                                    require(ERRORS_PATH.'php_error.php');
+
+                                }else{
+
+                                    ob_start();
+                                    require(ERRORS_PATH.'php_error.php');
+                                    $output = ob_get_contents();
+                                    ob_end_clean();
+
+                                    $system -> getOutput() -> append($output);
+
+                                }
 			
 			
 		}
@@ -71,5 +121,13 @@ class Error{
 
 
 	}
+
+    public static function showError404(){
+
+        header("Status: 404 Not Found", FALSE, 404);
+        require_once(ERRORS_PATH.'404.php');
+        exit();
+
+    }
 
 }
