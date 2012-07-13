@@ -2,15 +2,10 @@
 
 class Output{
 
+    private $errorOutput;
     private $output;
 
     public function __construct(){}
-
-    public function prepend( $val ){
-
-        $this -> output = $val.$this -> output;
-
-    }
 
     public function append( $val ){
 
@@ -18,9 +13,18 @@ class Output{
 
     }
 
-    public function printOutput(){
+    public function appendErrorOutput( $val ){
 
-        echo $this -> output;
+        if(!empty($val))
+            $this -> errorOutput .= $val;
+        else
+            throw new InvalidArgumentException("The error input must not be empty");
+
+    }
+
+    public function __toString(){
+
+        return sprintf('%s %s'  , $this -> errorOutput, $this -> output);
 
     }
 

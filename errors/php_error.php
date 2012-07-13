@@ -2,7 +2,7 @@
 
   <legend>Ocorreu um erro no PHP</legend>
 
-  <p>Nível: <?php echo $levelMode; ?></p>
+  <p>Nível: <?php echo $level; ?></p>
   <p>Mensagem:  <?php echo $message; ?></p>
   <p>Arquivo: <?php echo $file; ?></p>
   <p>Linha: <?php echo $line; ?></p>

@@ -9,9 +9,6 @@ class Bootstrap{
 		// init global's configs
 		Bootstrap::initGlobalConfigs();
 
-		// init auto load
-		Bootstrap::initAutoLoad();
-
 		// load system configs
 		Bootstrap::loadSystemConfigs($system);		
 		
@@ -20,6 +17,9 @@ class Bootstrap{
 
 		// load Output
 		Bootstrap::loadOutput($system);
+
+		// load URI
+		Bootstrap::loadURI($system);
 	}
 	
 	private static function initGlobalConfigs(){
@@ -31,10 +31,6 @@ class Bootstrap{
 		@register_shutdown_function( array('Error', 'myShutdownFunction') );
 		
 	}
-	
-	private static function initAutoLoad(){
-
-	}	
 
 	private static function loadSystemConfigs( System $system ){
 		
@@ -56,6 +52,22 @@ class Bootstrap{
 		$system -> setOutput( new Output() );
 
 	}
+
+    private static function loadURI( System $system ){
+
+        $dependency = $system -> getConfigsManager();
+
+        if($dependency instanceof ConfigsManager ){
+
+            $system -> setURI( URI::getInstance($dependency) ); // Acho que URI pertencer a System que tem configsManager mas mesmo assim conhecer ele é tenso. Ver se tem como melhorar.
+
+        }else{
+
+            throw new RuntimeException("Load the URI need to exists an ConfigsManager instance");
+
+        }
+
+    }
 		
 }
 

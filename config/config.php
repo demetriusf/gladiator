@@ -4,4 +4,4 @@
 | SYSTEM URL
 |--------------------------------------------------------------------------
 */
-$config['site_url'] = "http://localhost/gladiator/";
+$config['site_url'] = "http://localhost:8080/gladiator/";

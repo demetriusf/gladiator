@@ -16,13 +16,26 @@ require_once(CORE_PATH.'ConfigsManager.class.php');
 require_once(CORE_PATH.'Logger.class.php');
 require_once(CORE_PATH.'Log.class.php');
 require_once(CORE_PATH.'Output.class.php');
+require_once(CORE_PATH.'URI.class.php');
 
 $system = System::getInstance();
 $system -> init();
+trigger_error('Aqui warning', E_USER_WARNING);
+//*********************************//
+// ****   Call the plugins    **** //
+//*********************************//
 
-$system -> getOutput() -> append('Aqui estarei adicionando uma saida para o sistema...');
-file_get_contents('AUHauAH');
-$system -> getOutput() -> printOutput();
+
+//*******************************//
+// **** Call the controller **** //
+//*******************************//
+//URI::getSegments();
+
+//*******************************//
+// ***** Print the output  ***** //
+//*******************************//
+echo $system -> getOutput();
+
 //********************************************************//
 // **** If any error was threw, save the log in file **** //
 //********************************************************//

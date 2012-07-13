@@ -3,9 +3,10 @@
 final class System{
 	
 	private static $instance = NULL;
-	private $configsManager;
+	private $configsManager = NULL;
 	private $logger = NULL;
     private $output = NULL;
+    private $uri = NULL;
 	CONST SYSTEM_VERSION = 'Gladiator 1.0';
 	
 	private function __construct(){}
@@ -29,7 +30,7 @@ final class System{
 	}
 	
 	public function getConfigsManager(){
-		
+
 		return $this -> configsManager;
 		
 	}
@@ -61,6 +62,18 @@ final class System{
     public function setOutput( Output $output ){
 
         $this -> output = $output;
+
+    }
+
+    public function getURI(){
+
+        return $this -> uri;
+
+    }
+
+    public function setURI(URI $uri){
+
+        $this -> uri = $uri;
 
     }
 

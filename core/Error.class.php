@@ -1,4 +1,4 @@
-<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
 
 class Error{
 
@@ -20,26 +20,35 @@ class Error{
 								$logger->e($messageLog);
 								$logger->saveLogsInFile();
                                 $levelMode = "Error";
-                                require(ERRORS_PATH.'php_error.php');
-								die('');
+
+                                $phpError = Error::getPhpError($levelMode, $message, $file, $line);
+
+                                if( $notExistsOutput ){
+
+                                    echo $phpError;
+
+                                }else{
+
+                                    $system -> getOutput() -> appendErrorOutput($phpError);
+
+                                    die($system -> getOutput());
+
+                                }
 
 			case E_USER_WARNING:
 			case E_WARNING:
 								$logger->w($messageLog);
                                 $levelMode = "Warning";
 
+                                $phpError = Error::getPhpError($levelMode, $message, $file, $line);
+
                                 if( $notExistsOutput ){
 
-                                    require(ERRORS_PATH.'php_error.php');
+                                    echo $phpError;
 
                                 }else{
 
-                                    ob_start();
-                                    require(ERRORS_PATH.'php_error.php');
-                                    $output = ob_get_contents();
-                                    ob_end_clean();
-
-                                    $system -> getOutput() -> append($output);
+                                    $system -> getOutput() -> appendErrorOutput($phpError);
 
                                 }
 
@@ -50,18 +59,15 @@ class Error{
 								$logger->i($messageLog);
                                 $levelMode = "Info";
 
+                                $phpError = Error::getPhpError($levelMode, $message, $file, $line);
+
                                 if( $notExistsOutput ){
 
-                                    require(ERRORS_PATH.'php_error.php');
+                                    echo $phpError;
 
                                 }else{
 
-                                    ob_start();
-                                    require(ERRORS_PATH.'php_error.php');
-                                    $output = ob_get_contents();
-                                    ob_end_clean();
-
-                                    $system -> getOutput() -> append($output);
+                                    $system -> getOutput() -> appendErrorOutput($phpError);
 
                                 }
 
@@ -71,18 +77,15 @@ class Error{
                                 $levelMode = $number;
 								$logger->custom( $number, $messageLog);
 
+                                $phpError = Error::getPhpError($levelMode, $message, $file, $line);
+
                                 if( $notExistsOutput ){
 
-                                    require(ERRORS_PATH.'php_error.php');
+                                    echo $phpError;
 
                                 }else{
 
-                                    ob_start();
-                                    require(ERRORS_PATH.'php_error.php');
-                                    $output = ob_get_contents();
-                                    ob_end_clean();
-
-                                    $system -> getOutput() -> append($output);
+                                    $system -> getOutput() -> appendErrorOutput($phpError);
 
                                 }
 			
@@ -106,7 +109,22 @@ class Error{
         $logger->custom(ucwords($levelMode), $messageLog);
         $logger -> saveLogsInFile();
 
-        require_once(ERRORS_PATH.'php_error.php');
+        $system = System::getInstance();
+        $notExistsOutput = is_null( $system -> getOutput());
+
+        $phpError = Error::getPhpError($levelMode, $message, $file, $line);
+
+        if( $notExistsOutput ){
+
+            echo $phpError;
+
+        }else{
+
+          $system -> getOutput() -> appendErrorOutput($phpError);
+
+          die($system -> getOutput());
+
+        }
 
 	}
 
@@ -127,6 +145,20 @@ class Error{
         header("Status: 404 Not Found", FALSE, 404);
         require_once(ERRORS_PATH.'404.php');
         exit();
+
+    }
+
+    public static function getPhpError($level, $message, $file, $line){
+
+      $output = "";
+
+      ob_start();
+      require(ERRORS_PATH.'php_error.php');
+      $output = ob_get_contents();
+      ob_end_clean();
+
+
+      return $output;
 
     }
 
