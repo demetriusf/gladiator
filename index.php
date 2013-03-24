@@ -17,18 +17,19 @@ require_once(CORE_PATH.'Logger.class.php');
 require_once(CORE_PATH.'Log.class.php');
 require_once(CORE_PATH.'Output.class.php');
 require_once(CORE_PATH.'URI.class.php');
-require_once(CORE_PATH.'Config.class.php');
 
 $system = System::getInstance();
 $system -> init();
+trigger_error('Aqui warning', E_USER_WARNING);
 //*********************************//
 // ****   Call the plugins    **** //
 //*********************************//
 
+
 //*******************************//
-// ****   Call the request  **** //
+// **** Call the controller **** //
 //*******************************//
-//$system -> executeRequest();
+//URI::getSegments();
 
 //*******************************//
 // ***** Print the output  ***** //

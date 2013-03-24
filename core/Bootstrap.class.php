@@ -35,21 +35,8 @@ class Bootstrap{
 	private static function loadSystemConfigs( System $system ){
 		
 		require_once(CONFIG_PATH.'config.php');
-
-        $configManager = new ConfigsManager();
-
-        //Might create a Factory to config is good.
-        foreach( $config as $configName => $configValue ){
-                             
-            $configTemp = new Config();
-            //$configTemp -> setName($configName);
-            //$configTemp -> setValue($configValue);
-
-            //$configManager->setConfig($configTemp);
-
-        }
-
-        $system -> setConfigsManager( $configManager );
+				
+		$system -> setConfigsManager( new ConfigsManager( $config ) );
 
 	}
 
@@ -68,10 +55,17 @@ class Bootstrap{
 
     private static function loadURI( System $system ){
 
-        $uri = URI::getInstance();
-        $uri -> init();  
+        $dependency = $system -> getConfigsManager();
 
-        $system -> setURI( $uri );
+        if($dependency instanceof ConfigsManager ){
+
+            $system -> setURI( URI::getInstance($dependency) ); // Acho que URI pertencer a System que tem configsManager mas mesmo assim conhecer ele é tenso. Ver se tem como melhorar.
+
+        }else{
+
+            throw new RuntimeException("Load the URI need to exists an ConfigsManager instance");
+
+        }
 
     }
 		
