@@ -3,45 +3,31 @@
 class ConfigsManager{
 
 	private $configs;
-	
-	public function __construct( $configs = array() ){
-		
-		$this -> configs = $configs;
-		
+
+	public function __construct(){
+
 	}
-	
-	public function __get( $index ){
-		
-		if( isset($this -> configs[$index] ) ){
-			
-			$config = $this -> configs[$index];
-			
-		}else{
-			
-			trigger_error("The config '$index' doesn't exists", E_USER_ERROR);
-			
-		}
-		
-		return $config;
-		
-	}
-	
-	public function __set( $index, $value ){
-		
-		$this -> configs[$index] = $value;		
-		
-	}
-	
-	public function getConfigs(){
-		
-		return $this -> configs;
-		
-	}
-	
-	public function setConfigs( $configs ){
-		
-		$this -> configs = $configs;	
-		
-	}
+
+    public function getConfig($configName){
+
+        foreach( $this -> configs as  $config ){
+                
+            if( $config -> getName() == $configName ){
+
+                return $config;
+
+            }
+
+        }
+
+        return NULL;
+
+    }
+
+    public function setConfig( Config $config ){
+
+        $this -> configs[] = $config;
+
+    }
 
 }

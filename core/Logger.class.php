@@ -7,6 +7,17 @@ final class Logger{
 	
 	private function __construct(){}
 
+    private function __clone(){
+
+
+    }
+    
+    public function __toString(){
+
+        return sprintf('');
+
+    }
+
     public static function getInstance(){
 
         if( is_null(Logger::$instance) ){

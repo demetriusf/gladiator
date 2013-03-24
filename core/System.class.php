@@ -10,6 +10,16 @@ final class System{
 	CONST SYSTEM_VERSION = 'Gladiator 1.0';
 	
 	private function __construct(){}
+
+    private function __clone(){
+      
+    }
+
+    public function __toString(){
+
+        return sprintf('');
+
+    }
 	
 	public static function getInstance(){
 
