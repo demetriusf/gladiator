@@ -1,6 +1,14 @@
-﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+<?php 
+
+namespace gladiator\core;
+
+use gladiator\core\Logger;
+use gladiator\core\System;
+use gladiator\core\Output;
 
 class Error{
+	
+	public function __construct(){}
 
 	public static function myErrorHandler( $number, $message, $file, $line ){
 

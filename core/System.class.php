@@ -1,4 +1,11 @@
-﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+<?php 
+namespace gladiator\core;
+
+use gladiator\core\Bootstrap;
+use gladiator\core\ConfigsManager;
+use gladiator\core\Logger;
+use gladiator\core\Output;
+use gladiator\core\URI;
 
 final class System{
 	
@@ -10,6 +17,16 @@ final class System{
 	CONST SYSTEM_VERSION = 'Gladiator 1.0';
 	
 	private function __construct(){}
+
+    private function __clone(){
+      
+    }
+
+    public function __toString(){
+
+        return sprintf('');
+
+    }
 	
 	public static function getInstance(){
 

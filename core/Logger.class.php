@@ -1,4 +1,7 @@
-﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+<?php 
+namespace gladiator\core;
+
+use gladiator\core\Log;
 
 final class Logger{
 
@@ -6,6 +9,17 @@ final class Logger{
 	private $logs = array();
 	
 	private function __construct(){}
+
+    private function __clone(){
+
+
+    }
+    
+    public function __toString(){
+
+        return sprintf('');
+
+    }
 
     public static function getInstance(){
 
@@ -63,7 +77,7 @@ final class Logger{
 				
 				}else{
 					
-					throw new RuntimeException( "It was not possible save the Log in the following file: $filePath " );
+					throw new \RuntimeException( "It was not possible save the Log in the following file: $filePath " );
 
 				}
 

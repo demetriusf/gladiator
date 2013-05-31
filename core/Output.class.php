@@ -1,4 +1,6 @@
-﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+<?php 
+
+namespace gladiator\core;
 
 class Output{
 
@@ -18,7 +20,7 @@ class Output{
         if(!empty($val))
             $this -> errorOutput .= $val;
         else
-            throw new InvalidArgumentException("The error input must not be empty");
+            throw new \InvalidArgumentException("The error input must not be empty");
 
     }
 

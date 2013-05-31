@@ -1,4 +1,6 @@
-<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+<?php 
+
+namespace gladiator\core;
 
 class Log{
 
@@ -41,7 +43,7 @@ class Log{
 	private function typeValidate( $type ){
 		
 		if( empty( $type) )
-			throw new InvalidArgumentException("The type must not be empty! ");	
+			throw new \InvalidArgumentException("The type must not be empty! ");	
 			
 		return $type;
 		
@@ -50,7 +52,7 @@ class Log{
 	private function dateValidate( $date ){
 		
 		if( empty( $date) )
-			throw new InvalidArgumentException("The date must not be empty! ");
+			throw new \InvalidArgumentException("The date must not be empty! ");
 				
 		return $date ;
 		
@@ -59,7 +61,7 @@ class Log{
 	private function messageValidate($message){
 		
 		if( empty($message) )
-			throw new InvalidArgumentException("The message must not be empty!");
+			throw new \InvalidArgumentException("The message must not be empty!");
 			
 		return $message;
 		

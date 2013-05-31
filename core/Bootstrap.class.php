@@ -1,4 +1,14 @@
-﻿<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); }
+<?php 
+
+namespace gladiator\core;
+
+use gladiator\core\System;
+use gladiator\core\Error;
+use gladiator\core\ConfigsManager;
+use gladiator\core\Config;
+use gladiator\core\Logger;
+use gladiator\core\Output;
+use gladiator\core\URI;
 
 class Bootstrap{
 	
@@ -25,18 +35,31 @@ class Bootstrap{
 	private static function initGlobalConfigs(){
 
 		@set_time_limit(30);
-		@error_reporting(0);
-		@set_error_handler( array('Error', 'myErrorHandler') );
-		@set_exception_handler( array('Error', 'myExceptionHandler') );
-		@register_shutdown_function( array('Error', 'myShutdownFunction') );
+		@error_reporting(E_ALL);
+		@set_error_handler( array(new Error(), 'myErrorHandler') );
+		@set_exception_handler( array(new Error(), 'myExceptionHandler') );
+		@register_shutdown_function( array(new Error(), 'myShutdownFunction') );
 		
 	}
 
 	private static function loadSystemConfigs( System $system ){
 		
 		require_once(CONFIG_PATH.'config.php');
-				
-		$system -> setConfigsManager( new ConfigsManager( $config ) );
+
+        $configManager = new ConfigsManager();
+
+        //Might create a Factory to config is good.
+        foreach( $config as $configName => $configValue ){
+                             
+            $configTemp = new Config();
+            $configTemp -> setName($configName);
+            $configTemp -> setValue($configValue);
+
+            $configManager->setConfig($configTemp);
+
+        }
+
+        $system -> setConfigsManager( $configManager );
 
 	}
 
@@ -55,17 +78,10 @@ class Bootstrap{
 
     private static function loadURI( System $system ){
 
-        $dependency = $system -> getConfigsManager();
+        $uri = URI::getInstance();
+        $uri -> init();  // the same idea that a normal constructor
 
-        if($dependency instanceof ConfigsManager ){
-
-            $system -> setURI( URI::getInstance($dependency) ); // Acho que URI pertencer a System que tem configsManager mas mesmo assim conhecer ele é tenso. Ver se tem como melhorar.
-
-        }else{
-
-            throw new RuntimeException("Load the URI need to exists an ConfigsManager instance");
-
-        }
+        $system -> setURI( $uri );
 
     }
 		
