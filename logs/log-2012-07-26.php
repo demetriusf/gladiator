@@ -1,1 +1,0 @@
-<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); } ?>2012-07-26 02:57:25 - [4096] ---> 	 [Message] Object of class Config could not be converted to string 	 File: C:\Program Files (x86)\EasyPHP-5.3.8.0\www\gladiator\index.php 	 Line: 23 
