@@ -47,17 +47,7 @@ class Bootstrap{
 		require_once(CONFIG_PATH.'config.php');
 
         $configManager = new ConfigsManager();
-
-        //Might create a Factory to config is good.
-        foreach( $config as $configName => $configValue ){
-                             
-            $configTemp = new Config();
-            $configTemp -> setName($configName);
-            $configTemp -> setValue($configValue);
-
-            $configManager->setConfig($configTemp);
-
-        }
+        $configManager -> addConfigs($config);
 
         $system -> setConfigsManager( $configManager );
 

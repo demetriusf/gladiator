@@ -48,7 +48,7 @@ final class Logger{
 	}
 	
 	public function saveLogsInFile( $filePath="" ){
-
+			
 			$accessSafe = "<?php if( !defined('CORE_PATH') ){ die('No direct script access allowed'); } ?>";
 			$logText = implode(chr(13), $this -> logs);
 
@@ -67,7 +67,7 @@ final class Logger{
 					$logText = $accessSafe.$logText;
 					
 				}
-
+				
 				$fp = fopen($filePath, 'a');
 				
 				if( $fp ){

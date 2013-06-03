@@ -7,10 +7,6 @@ final class URI{
     private static $instance = NULL;
     private $uri;
 
-    CONST INDEX_OF_CONTROLLER = 1;
-    CONST INDEX_OF_METHOD = 2;
-    CONST INDEX_BEGIN_METHOD_PARAM = 3;
-
     private function __construct(){}
 
     private function __clone(){
@@ -19,7 +15,7 @@ final class URI{
 
     public function __toString(){
 
-        return sprintf('');
+        return sprintf($this -> uri);
 
     }
 
@@ -99,27 +95,30 @@ final class URI{
 
     }
 
-    public function getSegments(){
+    public function getSegments( $offset = NULL, $length = NULL ){
 
-        return explode('/', $this -> getUri() );
-
-    }
-
-    public function getControllerSegment(){
-
-        return $this -> getSegment(self::INDEX_OF_CONTROLLER);
-
-    }
-
-    public function getMethodSegment(){
-
-        return $this -> getSegment(self::INDEX_OF_METHOD);
-
-    }
-
-    public function getSegmentsAfterMethod(){
-
-        return array_slice( $this -> getSegments() , $this -> getRealSegmentIndex(self::INDEX_BEGIN_METHOD_PARAM) );
+    	$uri = $this -> getUri();
+    	
+    	if( !empty( $uri ) ){
+    		
+    		$segments = explode('/', $uri );
+    		
+   			if( $offset !== NULL ){ // return a piece
+   				
+   				if( $length !== NULL )
+					return array_slice($segments, $offset, $length);	
+   				else
+   					return array_slice($segments, $offset);
+   				
+   			}else{
+   				
+   				return $segments;
+   				
+   			}	
+    		
+    	}
+    	    	
+        return array() ;
 
     }
 
